@@ -1,7 +1,6 @@
 const dayjs = require('dayjs');
 
 module.exports = async function(req, res){
-    console.log('request article id', req.query)
     let item = req.$model.getArticleByName(req.query.id);
     let ret = {
         name: item.name,

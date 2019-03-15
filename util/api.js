@@ -1,10 +1,8 @@
 
 import axios from 'axios';
 
-import config from '../config';
-
 if(process.server){
-    axios.defaults.baseURL = config.host;
+    axios.defaults.baseURL = `http://${process.env.API_SERVICE_HOST || '127.0.0.1'}:3000`;
 }
 axios.defaults.timeout = 10000;
 

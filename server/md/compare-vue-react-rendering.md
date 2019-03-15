@@ -1,7 +1,8 @@
-<!--*
-modified_time: 2018-12-15 20:06;
+---
+modified_time: 2018-12-15 20:06
 title: Vue和React的重渲染（re-render）机制对比
-*-->
+---
+
 Vue和React的其中一个最重要的区别是它们对于数据更新的管理方式不同，Vue基本上是一套基于getter/setter实现的依赖收集/依赖更新的订阅式机制，而React则是通过显式的触发函数调用来更新数据，比如setState。相比来说Vue的实现方式更细粒度一些， 通过依赖收集，Vue是能够知道一些数据的更新导致了哪些地方需要重新计算的，通过这种机制，Vue能够优雅地实现计算属性、watch，包括视图渲染。而React由于缺少这种细粒度的机制，则更多时候需要一些其它方案来提高性能，于是产生了如PureComponent、ImmutableJS、shouldComponentUpdate钩子等等。
  
 ### 如何触发组件重渲染？

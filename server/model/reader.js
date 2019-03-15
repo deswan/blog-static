@@ -3,29 +3,48 @@ const fs = require('fs-extra');
 const path = require('path');
 const util = require('../util');
 const chokidar = require('chokidar');
-const md_meta = require('markdown-meta')
+const MarkdownIt = require('markdown-it')
+const meta = require('markdown-it-meta')
 const prism = require('markdown-it-prism');
-var md = require('markdown-it')({
-  linkify: true
+const _ = require('lodash');
+const dayjs = require('dayjs');
+
+const md = new MarkdownIt({
+    linkify: true
 })
+md.use(meta)
 md.use(prism, {
     defaultLanguage: 'javascript'
 });
 
+const markdownDir = config.markdown.dir;
+
+validate();
+
+function validate(){
+    if (!(
+        fs.existsSync(markdownDir) &&
+        fs.statSync(markdownDir).isDirectory()
+    )) {
+        throw new Error('markdownDir 配置无效');
+    }
+}
+
 async function readFile(file) {
-    let filePath = path.resolve(config.markdownDir, file);
+    let filePath = path.resolve(markdownDir, file);
     let fileContent = await fs.readFile(filePath, 'utf-8');
-    let meta = md_meta.parse(fileContent);
-    let document = md.render(util.filterMeta(fileContent));
+    md.meta = null
+    let document = md.render(fileContent);
+    if(!md.meta) throw new Error(`markdown ${file} 无 meta`)
     return {
-        meta,
+        meta: md.meta,
         document
     }
 }
 
 function watch(cb) {
-    console.log('开始监听数据源文件夹')
-    chokidar.watch(config.markdownDir, {
+    console.log('开始监听 markdown 数据源')
+    chokidar.watch(markdownDir, {
         ignored: /(^|[\/\\])\../,
         ignoreInitial: true
     }).on('all', (event, path) => {
@@ -35,39 +54,59 @@ function watch(cb) {
 }
 
 async function readData() {
-    if (!(
-            await fs.exists(config.markdownDir) &&
-            (await fs.stat(config.markdownDir)).isDirectory()
-        )) {
-        throw new Error('数据池路径配置错误');
-    }
 
-    let files = await fs.readdir(config.markdownDir);
+    let files = await fs.readdir(markdownDir);
 
-    let newPool = {};
+    let data = {};
 
     await Promise.all(files.map(async (file) => {
+        let filePath = path.join(markdownDir, file);
+
+        //忽略文件
         if (file.startsWith('.')) return;
-        if (process.env.NODE_ENV === 'production' && file.startsWith('test')) return;
-        let filePath = path.join(config.markdownDir, file);
-        if (!(await fs.stat(filePath)).isFile()) {
-            return console.log(`${file} 不是文件！`);
+        if (process.env.NODE_ENV === 'production'){
+            if(
+                typeof testFileName === 'string' && file.startsWith(testFileName) ||
+                testFileName.test(file)
+            ){
+                return;
+            }
         }
+        if (!(await fs.stat(filePath)).isFile()) {
+            return;
+        }
+
+        //文件名检测
         let ext = path.extname(file);
         let fileBaseName = path.basename(file, ext);
         let isValidName = (ext === '.md' || ext === '.markdown') && util.isEnStrikethrough(fileBaseName);
-        if (!isValidName) return console.log(`${file} 文件名不合法！`);
+        if (!isValidName) return console.warn(`${file} 文件名不合法`);
 
-        newPool[fileBaseName] = await readFile(file)
+        //读取文件
+        let result = await readFile(file)
+
+        //文件meta检测
+        if(!result.meta.title){
+            throw new Error(`markdown title 未定义 \n ${file}`)
+        }
+        if(!result.meta.modified_time){
+            throw new Error(`markdown modified_time 未定义 \n ${file}`)
+        }
+        if(!dayjs(result.meta.modified_time).isValid()){
+            throw new Error(`markdown modified_time 格式不合法 \n ${file}`)
+        }
+        let sameTitleKey;
+        if( sameTitleKey = _.findKey(data, v => v.meta.title === result.meta.title) ){
+            throw new Error(`markdown title 重复 \n ${file}:${result.meta.title} \n ${sameTitleKey}:${result.meta.title}`)
+        }
+
+        data[fileBaseName] = result;
+    
     }))
-    return newPool;
+    return data;
 }
 
 module.exports.onData = function(cb){
     readData().then(data => cb(null, data)).catch(cb);
     watch(cb);
 }
-
-// module.exports.onChange = function(cb){
-//     watch(cb);
-// }

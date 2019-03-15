@@ -12,15 +12,16 @@
     "test": "jest"
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "nuxt": "^2.4.0",
-    "express": "^4.16.4",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^2.6.0",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
+    "lodash": "^4.17.11",
     "markdown-it": "^8.4.2",
+    "markdown-it-meta": "0.0.1",
     "markdown-it-prism": "^2.0.1",
-    "markdown-meta": "0.0.3",
-    "fs-extra": "^7.0.1"
+    "nuxt": "^2.4.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.27",

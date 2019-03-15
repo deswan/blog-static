@@ -3,7 +3,13 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const model = require('./model')
+const MarkdownIt = require('markdown-it')
+const meta = require('markdown-it-meta')
 
+// Make new instance
+const md = new MarkdownIt()
+// Add markdown-it-meta
+md.use(meta)
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -14,6 +20,10 @@ config.dev = !(process.env.NODE_ENV === 'production')
 function wrap(fn){
     return (req, res, next) => fn(req, res, next).catch(next);
 }
+
+process.on('unhandledRejection', (err) => {
+  console.error(err);
+})
 
 
 async function start() {
@@ -29,10 +39,17 @@ async function start() {
   //     next();
   // })
 
+  app.get('/test', function(req, res, next){
+      console.log(require('dayjs')('2018-10-10 08:asd').isValid)
+  })
+
+  //文章列表
   app.get('/api/articles', wrap(require('./controller')))
 
+  //文章详情
   app.get('/api/article', wrap(require('./controller/article')))
 
+  //所有文章详情 不带分页
   app.get('/api/allArticles', wrap(require('./controller/allArticles')))
 
   //错误捕获

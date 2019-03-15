@@ -1,7 +1,6 @@
 const dayjs = require('dayjs');
 
 module.exports = async function(req, res){
-    console.log('/articles request query', req.query)
     let ret = await req.$model.getArticles({
         sort: ['modified_time', 'desc'], 
         page: req.query.page || 1,
