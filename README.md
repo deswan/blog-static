@@ -27,3 +27,4 @@ $ npm run deploy
 ## TODO
 
 - [ ] 自动化测试
+- [ ] TS重构
