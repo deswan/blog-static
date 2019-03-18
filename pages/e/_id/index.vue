@@ -1,26 +1,30 @@
 <template>
     <div class="article">
-        <header class="header">
-            <a href="/">
-                <img src="~assets/img/star.png" alt="" class="header-img">
-            </a>
-        </header>
+        <Header />
         <section class="title">
-            <h1 class="title-h1">{{$store.state.article.title}}</h1>
+            <h1 class="title-h1">{{article.title}}</h1>
             <p class="title-date">
-                <img src="~assets/img/time.svg" class="title-date-logo" alt="">
-                <span style="vertical-align:middle">{{$store.state.article.modified_date}}</span>   
+                <SvgTime />
+                <span style="vertical-align:middle">{{article.modified_date}}</span>   
             </p>
         </section>
-        <section class="body md" v-html="$store.state.article.document">
+        <section class="body md" v-html="article.document">
         </section>
     </div>
 </template>
 
 <script>
 import dayjs from "dayjs";
+import { mapState } from 'vuex'
+import Header from '@/components/header'
+import SvgTime from '@/components/svgTime'
+
 export default {
     name: 'StarArticle',
+    components:{
+        Header,
+        SvgTime
+    },
     async fetch({ store, route, payload }){
         if(payload){
             return store.commit('SET_ARTICLE', payload)
@@ -28,10 +32,7 @@ export default {
             return store.dispatch('FETCH_ARTICLE', {id: route.params.id})
         }
     },
-    data(){
-        return {
-        }
-    }
+    computed: mapState(['article'])
 }
 </script>
 
@@ -51,16 +52,16 @@ export default {
     font-size: 18px;
     max-width: 100%;
     width: 600px;
-    margin: 120px auto 0;
+    margin: 60px auto 0;
     .title-h1{
         font-weight: normal;
         margin: 0;
     }
     .title-date{
-        text-align: right;
-        margin: 0;
+        font-size: 16px;
         text-align: center;
         margin-top: 10px;
+        color: #666;
     }
 }
 .body{
@@ -70,13 +71,5 @@ export default {
     padding: 120px 0;
     text-align: left;
     font-size: 18px;
-}
-.title-date{
-    font-size: 16px;
-}
-.title-date-logo{
-    height: 16px;
-    margin-right: 5px;
-    vertical-align: middle;
 }
 </style>

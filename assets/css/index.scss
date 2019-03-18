@@ -4,6 +4,11 @@ html,body{
 }
 a, a:link{
     text-decoration: none;
+    color: inherit;
+}
+p{
+    margin: 0;
+    padding: 0;
 }
 .md{
     line-height: 1.8;
@@ -30,6 +35,9 @@ a, a:link{
         left: 0;
         width: 10px;
         background: #ddd;
+    }
+    p{
+        margin: 1em 0;
     }
     p > code, li > code{
         background: #f7f7f7;

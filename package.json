@@ -1,7 +1,7 @@
 {
   "name": "star_blog",
   "version": "1.0.0",
-  "description": "a blog with nothing",
+  "description": "a blog",
   "author": "wangxingzi",
   "private": true,
   "scripts": {
@@ -9,6 +9,8 @@
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
+    "deploy": "node deploy/index",
+    "server": "cross-env NODE_ENV=production node server/index.js onlyAPI",
     "test": "jest"
   },
   "dependencies": {
@@ -21,7 +23,8 @@
     "markdown-it": "^8.4.2",
     "markdown-it-meta": "0.0.1",
     "markdown-it-prism": "^2.0.1",
-    "nuxt": "^2.4.0"
+    "nuxt": "^2.4.0",
+    "shelljs": "^0.8.3"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.27",

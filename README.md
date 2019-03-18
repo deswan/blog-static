@@ -1,6 +1,6 @@
-# nuxt-app
+# blog-static
 
-> My perfect Nuxt.js project
+> Nuxt & markdown 驱动的静态博客生成器
 
 ## Build Setup
 
@@ -8,15 +8,22 @@
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
+# 开发
 $ npm run dev
 
-# build for production and launch server
+# 构建
 $ npm run build
 $ npm start
 
-# generate static project
+# 生成静态博客
+$ npm run server
 $ npm run generate
+
+# git一键部署
+# 请按照 deploy/condig.sample.js 创建 deploy/config.js
+$ npm run deploy
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## TODO
+
+- [ ] 自动化测试

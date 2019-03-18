@@ -10,6 +10,7 @@ module.exports = {
             let {items, totalPage } = this.pagination(articles, args.page, args.pageSize)
             return {
                 totalPage,
+                page: parseInt(args.page),
                 items
             };
         }else{

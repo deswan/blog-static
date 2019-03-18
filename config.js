@@ -4,5 +4,6 @@ module.exports = {
         dir: path.resolve('server', 'md'),
         testFileName: 'test'
     },
-    host: `http://${process.env.API_SERVICE_HOST || '127.0.0.1'}:3000`
+    host: `http://${process.env.API_SERVICE_HOST || '127.0.0.1'}:3000`,
+    pageSize: 10
 }

@@ -6,12 +6,18 @@ module.exports = {
   mode: 'universal',
   generate: {
     routes: function () {
-      return axios.get(`${config.host}/api/allArticles`)
+      return axios.get(`${config.host}/api/all`)
       .then((res) => {
-        return res.data.map(page => ({
+        let data = res.data;
+        let homepages = data.list.map(item => ({
+          route: '/page/' + item.page,
+          payload: item
+        }));
+        let details = data.items.map(page => ({
           route: '/e/' + page.name,
           payload: page     
         }))
+        return [].concat(homepages, details);
       })
     }
   },
@@ -26,7 +32,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'shortcut icon', href: '/favicon.ico' }
     ]
   },
 
@@ -54,7 +60,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
   ],
   /*
   ** Axios module configuration

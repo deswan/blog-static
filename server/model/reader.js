@@ -65,9 +65,13 @@ async function readData() {
         //忽略文件
         if (file.startsWith('.')) return;
         if (process.env.NODE_ENV === 'production'){
+            let testFileName = config.markdown.testFileName;
             if(
-                typeof testFileName === 'string' && file.startsWith(testFileName) ||
-                testFileName.test(file)
+                testFileName &&
+                (
+                    typeof testFileName === 'string' && file.startsWith(testFileName) ||
+                    _.isRegExp(testFileName) && testFileName.test(file)
+                )
             ){
                 return;
             }
