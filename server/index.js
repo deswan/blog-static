@@ -2,7 +2,6 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-const model = require('./model')
 const MarkdownIt = require('markdown-it')
 const meta = require('markdown-it-meta')
 
@@ -17,40 +16,25 @@ config.dev = !(process.env.NODE_ENV === 'production')
 
 const onlyAPI = process.argv[2] === 'onlyAPI';
 
-//Promise异步中间件错误捕获器
-function wrap(fn){
-    return (req, res, next) => fn(req, res, next).catch(next);
-}
-
 process.on('unhandledRejection', (err) => {
   console.error(err);
 })
 
 async function start() {
-
-  //attach data model
-  app.use(function(req, res, next){
-    req.$model = model;
-    next();
-  })
-
   // app.get('/api/articles', function(req, res, next){
   //     console.log(JSON.stringify(req, ['url','complete','headers','rawHeaders','trailers','rawTrailers','url','statusCode','method','statusMessage','next','baseUrl','originalUrl','params','query',''],2))
   //     next();
   // })
 
-  app.get('/test', function(req, res, next){
-      console.log(require('dayjs')('2018-10-10 08:asd').isValid)
+  let router = express.Router()
+  router.get('/test', function(req, res, next){
+    res.send('hello')
   })
 
-  //文章列表
-  app.get('/api/articles', wrap(require('./controller')))
+  app.use(router)
 
-  //文章详情
-  app.get('/api/article', wrap(require('./controller/article')))
-
-  //所有文章详情 不带分页
-  app.get('/api/all', wrap(require('./controller/all')))
+  app.use('/api/blog', require('./controller/blog'))
+  app.use('/api/poems', require('./controller/poems'))
 
   //错误捕获
   app.use(function(err, req, res, next){
@@ -68,7 +52,7 @@ async function start() {
 
   require('./model/pool').init(() => {
     console.log('读取md文件完成')
-    
+
     // Listen the server
     app.listen(port, host)
     consola.ready({

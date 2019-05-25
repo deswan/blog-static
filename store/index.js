@@ -1,33 +1,46 @@
 import api from '../util/api';
 
 export default {
-    state(){
+    state() {
         return {
-            allArticles:{},
-            article:{}
+            allArticles: {},
+            article: {},
+            poems: [{
+                date: '2018-10-17 12:10:10',
+                title: '无题',
+                content: ``,
+            }]
         }
     },
     mutations: {
-        SET_ARTICLE(state, article){
+        SET_ARTICLE(state, article) {
             state.article = article;
         },
-        SET_ALL_ARTICLES(state, allArticles){
+        SET_ALL_ARTICLES(state, allArticles) {
             state.allArticles = allArticles;
-        }
+        },
+        SET_ALL_POEMS(state, list) {
+            state.poems = list;
+        },
     },
     actions: {
-        FETCH_ARTICLE({ commit }, { id }){
-            return api.get(`/api/article`, {
+        FETCH_ARTICLE({ commit }, { id }) {
+            return api.get(`/api/blog/article`, {
                 params: { id }
-            }).then(res=>{
+            }).then(res => {
                 commit('SET_ARTICLE', res.data);
             })
         },
-        FETCH_ALL_ARTICLES({ commit }, { page }){
-            return api.get(`/api/articles`, {
+        FETCH_ALL_ARTICLES({ commit }, { page }) {
+            return api.get(`/api/blog/list`, {
                 params: { page }
-            }).then(res=>{
+            }).then(res => {
                 commit('SET_ALL_ARTICLES', res.data);
+            })
+        },
+        FETCH_ALL_POEMS({ commit }) {
+            return api.get(`/api/poems/list`).then(res => {
+                commit('SET_ALL_POEMS', res.data);
             })
         }
     },

@@ -1,10 +1,14 @@
-const pool = require('./pool')();
+const pool = require('./pool');
 const dayjs = require('dayjs');
+const _ = require('lodash');
 
-module.exports = {
+module.exports =  class Model {
+    constructor(category){
+        this.category = category
+    }
 
     async getArticles(args = {}) {
-        let articles = pool.getAllArticles();
+        let articles = pool.get(this.category);
         if(args.sort) articles = this.sortMD(articles, ...args.sort)
         if(args.page && args.pageSize){
             let {items, totalPage } = this.pagination(articles, args.page, args.pageSize)
@@ -16,11 +20,15 @@ module.exports = {
         }else{
             return articles
         }
-    },
+    }
 
-    getArticleByName(name, args) {
-        return pool.getArticle(name);
-    },
+    getArticleByName(name) {
+        if(!name) throw new Error('id 缺失')
+        let articles = pool.get(this.category);
+        let ret = _.find(articles, v => v.name === name)
+        if(!ret) throw new Error(`文章 ${name} 找不到`)
+        return ret;
+    }
 
     /**
      * 排序器
@@ -32,19 +40,18 @@ module.exports = {
         let desc = order === 'desc';
         let isTime = field.endsWith('_time');
         return [...mdList].sort((mdObj_a, mdObj_b) => {
-            let field_a = isTime ? dayjs(mdObj_a[field]) : mdObj_a[field];
-            let field_b = isTime ? dayjs(mdObj_b[field]) : mdObj_b[field];
-            // if(field.endsWith('_time')){
-            //     field_a = new Date(field_a).valueOf();
-            //     field_b = new Date(field_b).valueOf();
-            // }
+            console.log(mdObj_a, field, _.get(mdObj_a, field))
+            let fieldValueA = _.get(mdObj_a, field)
+            let fieldValueB = _.get(mdObj_b, field)
+            fieldValueA = isTime ? dayjs(fieldValueA) : fieldValueA;
+            fieldValueB = isTime ? dayjs(fieldValueB) : fieldValueB;
             if (desc) {
-                return field_b - field_a;
+                return fieldValueB - fieldValueA;
             } else {
-                return field_a - field_b;
+                return fieldValueA - fieldValueB;
             }
         })
-    },
+    }
 
     /**
      * 分页器

@@ -3,7 +3,6 @@
 </template>
 <style scoped>
 .date-logo{
-    height: 14px;
-    vertical-align: middle;
+    height: 12px;
 }
 </style>

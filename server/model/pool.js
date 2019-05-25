@@ -4,12 +4,6 @@ const Reader = require('./reader')
 // { [articleName]: { meta: Object, document: String} }
 let POOL = {};
 
-function mapToList(map){
-  return Object.keys(map).reduce((target, name) => {
-      target.push(getArticle(name))
-      return target;
-  }, [])
-}
 
 //获取单个数据
 /**
@@ -33,22 +27,20 @@ function getAllArticles() {
   return mapToList(POOL);
 }
 
-function Pool() {
-  return {
-    getArticle,
-    getAllArticles
+module.exports = {
+  get(category){
+    return POOL[category]
+  },
+
+  init(cb) {
+    let first = true;
+    Reader.onData((err, data) => {
+      if(err) throw err
+      POOL = data;
+      console.log('加载数据池完成')
+      if(first) cb(data);
+      first = false;
+    })
   }
-}
 
-Pool.init = function (cb) {
-  let first = true;
-  Reader.onData((err, data) => {
-    if(err) throw err
-    POOL = data;
-    console.log('加载数据池完成')
-    if(first) cb(data);
-    first = false;
-  })
 }
-
-module.exports = Pool;

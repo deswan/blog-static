@@ -5,19 +5,34 @@ const config = require('./config')
 module.exports = {
   mode: 'universal',
   generate: {
-    routes: function () {
-      return axios.get(`${config.host}/api/all`)
-      .then((res) => {
-        let data = res.data;
-        let homepages = data.list.map(item => ({
-          route: '/page/' + item.page,
-          payload: item
-        }));
-        let details = data.items.map(page => ({
-          route: '/e/' + page.name,
-          payload: page     
-        }))
-        return [].concat(homepages, details);
+    async routes() {
+      Promise.all([
+        axios.get(`${config.host}/api/blog/all`)
+        .then((res) => {
+          let data = res.data;
+          let list = data.list.map(item => ({
+            route: '/page/' + item.page,
+            payload: item
+          }));
+          let details = _.flatMap(data.list, ({ items }) => (
+            _.map(items, item => ({
+              route: '/e/' + item.name,
+              payload: item
+            }))
+          ))
+          return [].concat(list, details)
+        }),
+      ]).then((...routes) => {
+        return _.flatten(routes)
+      })
+    }
+  },
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'page',
+        path: '/page/:page',
+        component: resolve(__dirname, 'pages/index.vue')
       })
     }
   },

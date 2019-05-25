@@ -1,13 +1,13 @@
 <template>
   <div class="index-page">
-    <Header /> 
+    <Header />
     <section class="main">
       <div class="article-item" v-for="article in items" :key="article.name">
         <a :href="$router.resolve({name: 'e-id', params:{id: article.name}}).href">
           <h2 class="article-title">{{article.title}}</h2>
         </a>
         <p class="article-date">
-          <SvgTime />
+          <!-- <SvgTime /> -->
           <span class="article-date-text">{{article.modified_date}}</span>
         </p>
       </div>
@@ -79,21 +79,21 @@ export default {
     lastPage() {
       if (this.page <= 1) return;
       location.href = this.$router.resolve({
-        name: "page-page",
+        name: "page",
         params: { page: this.page - 1 }
       }).href;
     },
     nextPage() {
       if (this.page >= this.totalPage) return;
       location.href = this.$router.resolve({
-        name: "page-page",
+        name: "page",
         params: { page: this.page + 1 }
       }).href;
     },
     toPage(page) {
       if (page == this.page || page > this.totalPage || page < 1) return;
       location.href = this.$router.resolve({
-        name: "page-page",
+        name: "page",
         params: { page }
       }).href;
     }
@@ -109,22 +109,22 @@ export default {
 }
 .main {
   flex: auto;
-  max-width: 90%;
-  width: 700px;
-  margin: 40px auto 0;
+  max-width: 80%;
+  width: 600px;
+  margin: 60px auto 0;
 }
 
 .article-item {
   display: block;
-  margin-top: 60px;
+  margin-top: 50px;
 
   &:first-child {
     margin-top: 0;
   }
 
-  .article-title { 
+  .article-title {
     transition: color ease 0.2s;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: normal;
     margin: 0;
     color: #333;
@@ -135,13 +135,11 @@ export default {
   }
 
   .article-date {
-    font-size: 14px;
-    text-align: center;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 5px;
     color: #666;
-  }
-  .article-date-text {
-    vertical-align: middle;
   }
 }
 .pagination {
@@ -186,6 +184,7 @@ export default {
     display: inline-block;
   }
   .pagination-number {
+    text-align: center;
     margin-right: 20px;
     display: inline-block;
     width: 35px;

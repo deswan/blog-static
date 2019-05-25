@@ -6,9 +6,12 @@ a, a:link{
     text-decoration: none;
     color: inherit;
 }
-p{
+p, ul{
     margin: 0;
     padding: 0;
+}
+li{
+    list-style: none;
 }
 .md{
     line-height: 1.8;
