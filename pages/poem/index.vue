@@ -52,7 +52,7 @@ export default {
 .main {
     flex: auto;
     max-width: 80%;
-    width: 700px;
+    width: 900px;
     margin: 60px auto;
 }
 .item{

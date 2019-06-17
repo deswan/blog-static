@@ -1,0 +1,18 @@
+install:
+- npm install
+before_script:
+- npm install -g pm2 nuxt
+script:
+- pm2 start && nuxt generate
+after_script:
+- cd dist
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GH_TOKEN"
+  keep_history: true
+  on:
+    branch: master
+env:
+  global:
+    secure: V/hRHrd4WUCL//zRzTEg/NgLM5oaYF5lJ4FzH2xHnc54VXcLcKUYw5+0SdQLrBCx5p/nZArd44ktPCkV78ESb9SrimoRmKHqSJUw8D55YdC8HDKOVGDG9AoiAJnIEZ232e4OR4Kg2tLJFKXoZ2DGmhwPDX0ftn/EcJohC99lQP1D6hHUfc6CMMp/+MRHHpI4uaX2j2KZd6RS+vd/9r2ol51IUVTxnB/qesHglMuiILovnAIgQ+7aP5u3t6vflWIiGME4dDBQrgFUUJXagQ2FtEQRl0TCnI8alws2tA4cI3zXpRKKkgINpnz+o3jXkVDN7AMB3BACwRihKzpTEdeHME+l/0ZZpF5IeS7qyg65ZUJDd1CcH+ZtpUNIy7NnVcxCVWo5C5ZjSbJDyeMBt02z6UHvUByr8UR4QzSXqf4N8HLFQhWTQZU8KsG/xudPKQUtk8nyGEEBo9VBT5n7UnXVJZfSJljvRpkp/s9zvnxC3zn8HsDikONkOaQq1XaBV/7c3/A1chWgsXdqhvyvDuUyMvzg7kMfmjrV8whgGlUqE/ij4rnsM2ZftrpypVPa7+tT2EqJd5nsPFaNMdG++PkxqbskAVBBkI1XvzZ8oHMWp8exkuFJzKVq3r0tygSCdzJnY/VObwY8LmBJq/affblp8ZQYi2YlEjzZeuBJGZ+Z4Ak=

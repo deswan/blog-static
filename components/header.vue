@@ -34,7 +34,7 @@ export default {
     align-items: center;
     margin: 0 auto;
     max-width: 80%;
-    width: 600px;
+    width: 650px;
   }
 
   &-text {
@@ -44,7 +44,7 @@ export default {
     height: 100%;
     font-weight: normal;
     margin: 0;
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   &-logo {

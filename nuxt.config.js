@@ -1,12 +1,13 @@
 const pkg = require('./package')
 const axios = require('axios')
 const config = require('./config')
+const _ = require('lodash')
 
 module.exports = {
   mode: 'universal',
   generate: {
     async routes() {
-      Promise.all([
+      return Promise.all([
         axios.get(`${config.host}/api/blog/all`)
         .then((res) => {
           let data = res.data;
@@ -22,7 +23,7 @@ module.exports = {
           ))
           return [].concat(list, details)
         }),
-      ]).then((...routes) => {
+      ]).then(routes => {
         return _.flatten(routes)
       })
     }
