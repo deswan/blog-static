@@ -1,9 +1,9 @@
 install:
 - npm install
 before_script:
-- npm install -g pm2 nuxt
+- npm install -g pm2
 script:
-- pm2 start && nuxt generate
+- pm2 start && npx nuxt generate
 after_script:
 - cd dist
 deploy:
