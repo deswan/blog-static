@@ -4,9 +4,10 @@ before_script:
 - npm install -g pm2
 script:
 - pm2 start && npx nuxt generate
-after_script:
-- cd dist
 deploy:
+  local_dir: ./dist
+  repo: deswan/deswan.github.io
+  target_branch: master
   provider: pages
   skip_cleanup: true
   github_token: "$GH_TOKEN"
