@@ -1,5 +1,5 @@
-install:
-- npm install
+language: node_js
+cache: npm
 before_script:
 - npm install -g pm2
 script:
