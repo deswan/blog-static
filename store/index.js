@@ -5,11 +5,7 @@ export default {
         return {
             allArticles: {},
             article: {},
-            poems: [{
-                date: '2018-10-17 12:10:10',
-                title: '无题',
-                content: ``,
-            }]
+            poems: []
         }
     },
     mutations: {
