@@ -56,7 +56,7 @@ export default {
     font-size: 20px;
     margin: 0;
     padding: 0;
-    margin-left: 100px;
+    margin-left: 50px;
   }
 
   &-nav-item{

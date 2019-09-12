@@ -13,7 +13,7 @@
       </div>
     </section>
     <footer class="footer">
-      <div class="pagination" v-if="totalPage">
+      <div class="pagination" v-if="totalPage > 1">
         <a
           href="javascript:;"
           class="pagination-last"
@@ -157,6 +157,8 @@ export default {
     font-size: 0;
     transition: all ease 0.5s;
     transform: translateX(0);
+    opacity: 0.9;
+
     &.disabled {
       transition: none;
       cursor: default;
