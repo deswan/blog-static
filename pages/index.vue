@@ -116,7 +116,7 @@ export default {
 
 .article-item {
   display: block;
-  margin-top: 50px;
+  margin-top: 60px;
 
   &:first-child {
     margin-top: 0;
@@ -124,7 +124,7 @@ export default {
 
   .article-title {
     transition: color ease 0.2s;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: normal;
     margin: 0;
     color: #333;
@@ -137,7 +137,7 @@ export default {
   .article-date {
     display: flex;
     align-items: center;
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 5px;
     color: #666;
   }

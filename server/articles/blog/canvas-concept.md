@@ -109,11 +109,11 @@ closePath使得第二条子路径首尾相连，然后在20,60调用lineTo，发
 - 剪切区域：clip
 - 虚线列表
 - 渲染属性 
-    - 描边、填充样式：strokeStyle、fillStyle 
-    - 线条设置：lineWidth、lineCap、lineJoin、miterLimit、lineDashOffset 
-    - 阴影设置：shadowOffsetX、shadowOffsetY、shadowBlur、shadowColor 
-    - 文本设置：font、textAlign、textBaseline、direction
-    - 其它：globalAlpha、globalCompositeOperation、imageSmoothingEnabled
+    + 描边、填充样式：strokeStyle、fillStyle 
+    + 线条设置：lineWidth、lineCap、lineJoin、miterLimit、lineDashOffset 
+    + 阴影设置：shadowOffsetX、shadowOffsetY、shadowBlur、shadowColor 
+    + 文本设置：font、textAlign、textBaseline、direction
+    + 其它：globalAlpha、globalCompositeOperation、imageSmoothingEnabled
 
 需要注意的是，路径不属于绘图状态的一部分。
 

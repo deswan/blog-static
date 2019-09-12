@@ -4,8 +4,8 @@
         <section class="title">
             <h1 class="title-h1">{{article.title}}</h1>
             <p class="title-date">
-                <SvgTime />
-                <span style="vertical-align:middle">{{article.modified_date}}</span>   
+                <SvgTime class="title-date-logo" />
+                <span>{{article.modified_date}}</span>   
             </p>
         </section>
         <section class="body md" v-html="article.document">
@@ -37,10 +37,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.article{
-    max-width: 90%;
-    margin: auto;
-}
 .header{
     text-align: center;
     .header-img{
@@ -49,27 +45,33 @@ export default {
     }
 }
 .title{
-    font-size: 18px;
     max-width: 100%;
     width: 600px;
-    margin: 60px auto 0;
+    margin: 100px auto 120px;
     .title-h1{
+        font-size: 32px;
+        text-align: center;
         font-weight: normal;
         margin: 0;
     }
     .title-date{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 16px;
-        text-align: center;
         margin-top: 10px;
         color: #666;
     }
+    .title-date-logo{
+        margin-right: 5px;
+    }
 }
 .body{
-    max-width: 100%;
-    width: 650px;
+    max-width: 90%;
+    width: 750px;
     margin: auto;
-    padding: 120px 0;
     text-align: left;
     font-size: 18px;
+    padding-bottom: 100px;
 }
 </style>

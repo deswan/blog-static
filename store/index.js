@@ -21,7 +21,7 @@ export default {
     },
     actions: {
         FETCH_ARTICLE({ commit }, { id }) {
-            return api.get(`/api/blog/article`, {
+            return api.get(`/api/blog/get`, {
                 params: { id }
             }).then(res => {
                 commit('SET_ARTICLE', res.data);
