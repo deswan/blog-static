@@ -12,7 +12,7 @@
                     <div class="item-content">
                         <article class="poem">
                             <h4 class="poem-title" v-if="item.title">{{item.title}}</h4>
-                            <div v-html="item.document" class="md"></div>
+                            <div v-html="item.document" class="poem-md"></div>
                         </article>
                     </div>
                 </li>
@@ -52,7 +52,7 @@ export default {
 .main {
     flex: auto;
     max-width: 80%;
-    width: 900px;
+    width: 800px;
     margin: 60px auto;
 }
 .item{
@@ -114,9 +114,7 @@ export default {
     text-align: center;
     flex: auto;
     font-size: 16px;
-    line-height: 2;
 }
 .poem-title{
-    font-weight: normal;
 }
 </style>

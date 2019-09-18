@@ -65,6 +65,9 @@ li{
     ul li {
         list-style-type: disc;
     }
+    li{
+        margin: 4px 0;
+    }
     ul{
         list-style-type: disc;
         margin-block-start: 1em;
@@ -73,5 +76,11 @@ li{
     }
     pre{
         border-radius: 5px;
+    }
+}
+
+.poem-md{
+    p{
+        margin: 15px 0;
     }
 }

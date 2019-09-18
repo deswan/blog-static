@@ -3,13 +3,13 @@
     <Header />
     <section class="main">
       <div class="article-item" v-for="article in items" :key="article.name">
-        <a :href="$router.resolve({name: 'e-id', params:{id: article.name}}).href">
+        <a :href="$router.resolve({name: 'e-id', params:{id: article.name}}).href" class="article-link">
           <h2 class="article-title">{{article.title}}</h2>
+          <p class="article-date">
+            <!-- <SvgTime /> -->
+            <span class="article-date-text">{{article.modified_date}}</span>
+          </p>
         </a>
-        <p class="article-date">
-          <!-- <SvgTime /> -->
-          <span class="article-date-text">{{article.modified_date}}</span>
-        </p>
       </div>
     </section>
     <footer class="footer">
@@ -109,14 +109,14 @@ export default {
 }
 .main {
   flex: auto;
-  max-width: 80%;
+  max-width: 90%;
   width: 600px;
   margin: 60px auto 0;
 }
 
 .article-item {
   display: block;
-  margin-top: 60px;
+  margin-top: 40px;
 
   &:first-child {
     margin-top: 0;
@@ -128,10 +128,6 @@ export default {
     font-weight: normal;
     margin: 0;
     color: #333;
-
-    &:hover {
-      color: #666;
-    }
   }
 
   .article-date {
@@ -142,6 +138,18 @@ export default {
     color: #666;
   }
 }
+
+.article-link{
+  display: block;
+  padding: 25px 0px;
+
+  &:hover{
+    .article-title{
+      color: #999;
+    } 
+  }
+}
+
 .pagination {
   display: flex;
   align-items: center;

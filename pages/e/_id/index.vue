@@ -68,7 +68,7 @@ export default {
 }
 .body{
     max-width: 90%;
-    width: 850px;
+    width: 800px;
     margin: auto;
     text-align: left;
     font-size: 16px;
