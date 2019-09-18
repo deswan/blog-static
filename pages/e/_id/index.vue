@@ -68,10 +68,10 @@ export default {
 }
 .body{
     max-width: 90%;
-    width: 750px;
+    width: 850px;
     margin: auto;
     text-align: left;
-    font-size: 18px;
+    font-size: 16px;
     padding-bottom: 100px;
 }
 </style>
