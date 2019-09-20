@@ -11,7 +11,8 @@ const dayjs = require('dayjs');
 const fileChecker = require('./checkFile');
 
 const md = new MarkdownIt({
-    linkify: true
+    linkify: true,
+    breaks: true
 })
 md.use(meta)
 md.use(prism, {
