@@ -2,8 +2,8 @@ const path = require('path');
 module.exports = {
     markdown: {
         dirs: {
-            blog: path.resolve('server/articles/blog'),
-            poems: path.resolve('server/articles/poems'),
+            blog: path.resolve('content/blog'),
+            poems: path.resolve('content/poems'),
         },
         testFilePattern: /test/
     },

@@ -3,7 +3,7 @@
         <Header />
         <section class="main">
             <ul>
-                <li class="item" v-for="(item, idx) in poems" :key="idx">
+                <li class="item" v-for="(item, idx) in data" :key="idx">
                     <div class="item-head">
                         <div class="item-head-v"></div>
                         <div class="item-head-h"></div>
@@ -25,9 +25,13 @@
 import dayjs from "dayjs";
 import { mapState } from 'vuex'
 import Header from '@/components/header'
+import api from '@/util/api';
 
 export default {
     name: 'Poem',
+    head: {
+        title: 'Star`s Poems'
+    },
     components:{
         Header,
     },
@@ -36,14 +40,15 @@ export default {
             return dayjs(d).format('YYYY/MM/DD')
         }
     },
-    async fetch({ store, route, payload }){
+    async asyncData({ store, route, payload }){
+        let data
         if(payload){
-            return store.commit('SET_POEMS', payload)
+            data = payload
         }else{
-            return store.dispatch('FETCH_ALL_POEMS')
+            data = await api.get(`/api/poems/list`).then(res => res.data)
         }
+        return { data }
     },
-    computed: mapState(['poems'])
 }
 </script>
 

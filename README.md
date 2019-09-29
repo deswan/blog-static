@@ -18,10 +18,6 @@ $ npm start
 # 生成静态博客
 $ npm run server
 $ npm run generate
-
-# git一键部署
-# 请按照 deploy/condig.sample.js 创建 deploy/config.js
-$ npm run deploy
 ```
 
 ## TODO

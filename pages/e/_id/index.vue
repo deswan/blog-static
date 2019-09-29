@@ -2,13 +2,13 @@
     <div class="article">
         <Header />
         <section class="title">
-            <h1 class="title-h1">{{article.title}}</h1>
+            <h1 class="title-h1">{{data.title}}</h1>
             <p class="title-date">
                 <SvgTime class="title-date-logo" />
-                <span>{{article.modified_date}}</span>   
+                <span>{{data.modified_date}}</span>   
             </p>
         </section>
-        <section class="body md" v-html="article.document">
+        <section class="body md" v-html="data.document">
         </section>
     </div>
 </template>
@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { mapState } from 'vuex'
 import Header from '@/components/header'
 import SvgTime from '@/components/svgTime'
+import api from '@/util/api';
 
 export default {
     name: 'StarArticle',
@@ -25,14 +26,23 @@ export default {
         Header,
         SvgTime
     },
-    async fetch({ store, route, payload }){
-        if(payload){
-            return store.commit('SET_ARTICLE', payload)
-        }else{
-            return store.dispatch('FETCH_ARTICLE', {id: route.params.id})
+    head(){
+        return {
+            title: this.data.title,
+            titleTemplate: '%s | Star`s Blog'
         }
     },
-    computed: mapState(['article'])
+    async asyncData({ store, route, payload }){
+        let data
+        if(payload){
+            data = payload
+        }else{
+            data = await api.get(`/api/blog/get`, {
+                params: { id: route.params.id }
+            }).then(res => res.data)
+        }
+        return { data }
+    },
 }
 </script>
 

@@ -40,7 +40,6 @@ module.exports =  class Model {
         let desc = order === 'desc';
         let isTime = field.endsWith('_time');
         return [...mdList].sort((mdObj_a, mdObj_b) => {
-            console.log(mdObj_a, field, _.get(mdObj_a, field))
             let fieldValueA = _.get(mdObj_a, field)
             let fieldValueB = _.get(mdObj_b, field)
             fieldValueA = isTime ? dayjs(fieldValueA) : fieldValueA;

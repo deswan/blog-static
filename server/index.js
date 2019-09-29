@@ -21,11 +21,6 @@ process.on('unhandledRejection', (err) => {
 })
 
 async function start() {
-  // app.get('/api/articles', function(req, res, next){
-  //     console.log(JSON.stringify(req, ['url','complete','headers','rawHeaders','trailers','rawTrailers','url','statusCode','method','statusMessage','next','baseUrl','originalUrl','params','query',''],2))
-  //     next();
-  // })
-
   let router = express.Router()
   router.get('/test', function(req, res, next){
     res.send('hello')

@@ -7,6 +7,7 @@ module.exports = {
   mode: 'universal',
   generate: {
     async routes() {
+      // 获取全部blog数据
       return Promise.all([
         axios.get(`${config.host}/api/blog/all`)
         .then((res) => {
@@ -30,6 +31,7 @@ module.exports = {
   },
   router: {
     extendRoutes (routes, resolve) {
+      // 将路径 /page/xxx 渲染到首页
       routes.push({
         name: 'page',
         path: '/page/:page',

@@ -2,8 +2,11 @@
   <div class="index-page">
     <Header />
     <section class="main">
-      <div class="article-item" v-for="article in items" :key="article.name">
-        <a :href="$router.resolve({name: 'e-id', params:{id: article.name}}).href" class="article-link">
+      <div class="article-item" v-for="article in data.items" :key="article.name">
+        <a
+          :href="$router.resolve({name: 'e-id', params:{id: article.name}}).href"
+          class="article-link"
+        >
           <h2 class="article-title">{{article.title}}</h2>
           <p class="article-date">
             <!-- <SvgTime /> -->
@@ -13,21 +16,21 @@
       </div>
     </section>
     <footer class="footer">
-      <div class="pagination" v-if="totalPage > 1">
+      <div class="pagination" v-if="data.totalPage > 1">
         <a
           href="javascript:;"
           class="pagination-last"
-          :class="{disabled: page <= 1}"
+          :class="{disabled: data.page <= 1}"
           @click="lastPage"
         >
-          <img src="~assets/img/arrow-left.svg" alt>
+          <img src="~assets/img/arrow-left.svg" alt />
         </a>
         <div class="pagination-body">
           <a
             href="javascript:;"
-            v-for="n in totalPage"
+            v-for="n in data.totalPage"
             class="pagination-number"
-            :class="{active: n == page}"
+            :class="{active: n == data.page}"
             :key="n"
             @click="toPage(n)"
           >{{n}}</a>
@@ -35,10 +38,10 @@
         <a
           href="javascript:;"
           class="pagination-next"
-          :class="{disabled: page >= totalPage}"
+          :class="{disabled: data.page >= data.totalPage}"
           @click="nextPage"
         >
-          <img src="~assets/img/arrow-right.svg" alt>
+          <img src="~assets/img/arrow-right.svg" alt />
         </a>
       </div>
     </footer>
@@ -47,51 +50,54 @@
 
 <script>
 import dayjs from "dayjs";
-import { mapState } from 'vuex'
-import Header from '@/components/header'
-import SvgTime from '@/components/svgTime'
+import { mapState } from "vuex";
+import Header from "@/components/header";
+import SvgTime from "@/components/svgTime";
+import api from '@/util/api';
+
 export default {
   name: "StarIndex",
-  components:{
+  components: {
     Header,
     SvgTime
   },
-  async fetch({ store, route, payload }) {
-    if(payload){
-      return store.commit('SET_ALL_ARTICLES', payload)
-    }else{
-      return store.dispatch("FETCH_ALL_ARTICLES", {
-        page: route.params.page || 1
-      });
+  async asyncData({ store, route, payload }) {
+    let data;
+    if (payload) {
+      data = payload;
+    } else {
+      data = await api.get(`/api/blog/list`, { params: { page: route.params.page || 1 } })
+        .then(res => res.data);
     }
+    return { data }
   },
   data() {
     return {
-      currentYear: dayjs().format("YYYY")
+      currentYear: dayjs().format("YYYY"),
+      data: {
+        page: 1,
+        totalPage: 0,
+        items: []
+      }
     };
   },
-  computed: mapState({
-    page: state => state.allArticles.page,
-    totalPage: state => state.allArticles.totalPage,
-    items: state => state.allArticles.items,
-  }),
   methods: {
     lastPage() {
-      if (this.page <= 1) return;
+      if (this.data.page <= 1) return;
       location.href = this.$router.resolve({
         name: "page",
-        params: { page: this.page - 1 }
+        params: { page: this.data.page - 1 }
       }).href;
     },
     nextPage() {
-      if (this.page >= this.totalPage) return;
+      if (this.data.page >= this.data.totalPage) return;
       location.href = this.$router.resolve({
         name: "page",
-        params: { page: this.page + 1 }
+        params: { page: this.data.page + 1 }
       }).href;
     },
     toPage(page) {
-      if (page == this.page || page > this.totalPage || page < 1) return;
+      if (page == this.data.page || page > this.data.totalPage || page < 1) return;
       location.href = this.$router.resolve({
         name: "page",
         params: { page }
@@ -139,14 +145,14 @@ export default {
   }
 }
 
-.article-link{
+.article-link {
   display: block;
   padding: 25px 0px;
 
-  &:hover{
-    .article-title{
+  &:hover {
+    .article-title {
       color: #999;
-    } 
+    }
   }
 }
 
