@@ -3,7 +3,8 @@ node_js:
   - "10"
 cache: npm
 script:
-- npm run server && npm run generate
+- npm run server &
+- npm run generate
 deploy:
   local_dir: ./dist
   repo: deswan/deswan.github.io
