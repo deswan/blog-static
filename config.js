@@ -7,6 +7,6 @@ module.exports = {
         },
         testFilePattern: /test/
     },
-    host: `http://${process.env.API_SERVICE_HOST || '127.0.0.1'}:3000`,
+    host: `http://127.0.0.1:3000`,
     pageSize: 10
 }
