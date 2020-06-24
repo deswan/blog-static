@@ -25,7 +25,7 @@
 import dayjs from "dayjs";
 import { mapState } from 'vuex'
 import Header from '@/components/header'
-import api from '@/util/api';
+import axios from '~/plugins/axios';
 
 export default {
     name: 'Poem',
@@ -45,7 +45,7 @@ export default {
         if(payload){
             data = payload
         }else{
-            data = await api.get(`/api/poems/list`).then(res => res.data)
+            data = await axios.get(`/api/poems/list`).then(res => res.data)
         }
         return { data }
     },

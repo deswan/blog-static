@@ -4,7 +4,6 @@
         <section class="title">
             <h1 class="title-h1">{{data.title}}</h1>
             <p class="title-date">
-                <SvgTime class="title-date-logo" />
                 <span>{{data.modified_date}}</span>   
             </p>
         </section>
@@ -18,7 +17,7 @@ import dayjs from "dayjs";
 import { mapState } from 'vuex'
 import Header from '@/components/header'
 import SvgTime from '@/components/svgTime'
-import api from '@/util/api';
+import axios from '~/plugins/axios';
 
 export default {
     name: 'StarArticle',
@@ -37,7 +36,7 @@ export default {
         if(payload){
             data = payload
         }else{
-            data = await api.get(`/api/blog/get`, {
+            data = await axios.get(`/api/blog/get`, {
                 params: { id: route.params.id }
             }).then(res => res.data)
         }
@@ -67,7 +66,7 @@ export default {
     .title-date{
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         font-size: 16px;
         margin-top: 10px;
         color: #666;

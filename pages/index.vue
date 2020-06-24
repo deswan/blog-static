@@ -53,7 +53,7 @@ import dayjs from "dayjs";
 import { mapState } from "vuex";
 import Header from "@/components/header";
 import SvgTime from "@/components/svgTime";
-import api from '@/util/api';
+import axios from '~/plugins/axios';
 
 export default {
   name: "StarIndex",
@@ -66,7 +66,7 @@ export default {
     if (payload) {
       data = payload;
     } else {
-      data = await api.get(`/api/blog/list`, { params: { page: route.params.page || 1 } })
+      data = await axios.get(`/api/blog/list`, { params: { page: route.params.page || 1 } })
         .then(res => res.data);
     }
     return { data }
